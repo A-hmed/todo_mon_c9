@@ -1,63 +1,49 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_mon_c9/ui/bottom_sheets/add_bottom_sheet.dart';
+import 'package:todo_mon_c9/ui/screens/home/tabs/list/list_tab.dart';
+import 'package:todo_mon_c9/ui/screens/home/tabs/settings/settings_tab.dart';
 import 'package:todo_mon_c9/ui/screens/home/todo_widget.dart';
 import 'package:todo_mon_c9/ui/utils/app_colors.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const String routeName = "home";
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int currentTabIndex = 0;
+  List<Widget> tabs = [
+    ListTab(),
+    SettingsTab()
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: body(context),
-      floatingActionButton: buildFab(context),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: buildBottomNav(),
+        appBar: AppBar(
+          title: const Text("To Do List"),
+          toolbarHeight: MediaQuery.of(context).size.height * .08,
+        ),
+        body: tabs[currentTabIndex],
+        floatingActionButton: buildFab(context),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: buildBottomNav(),
     );
   }
-
-  Widget body(BuildContext context) => Stack(
-        children: [
-          Column(children: [
-            AppBar(
-              title: const Text("To Do List"),
-              toolbarHeight: MediaQuery.of(context).size.height * .2,
-            ),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * .08),
-                child: ListView.builder(
-                    itemCount: 10, itemBuilder: (_, index) => TodoWidget()),
-              ),
-            ),
-          ]),
-          Container(
-            margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * .15),
-            child: CalendarTimeline(
-              initialDate: DateTime.now(),
-              firstDate: DateTime.now().subtract(Duration(days: 365)),
-              lastDate: DateTime.now().add(Duration(days: 365)),
-              onDateSelected: (date) => print(date),
-              showYears: true,
-              leftMargin: 20,
-              monthColor: AppColors.white,
-              dayColor: AppColors.primiary,
-              dotsColor: AppColors.transparent,
-              activeDayColor: AppColors.lightBlack,
-              activeBackgroundDayColor: AppColors.white,
-            ),
-          ),
-        ],
-      );
 
   Widget buildBottomNav() => BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 12,
         clipBehavior: Clip.hardEdge,
         child: BottomNavigationBar(
+          onTap: (index){
+            currentTabIndex = index;
+            setState(() {});
+          },
+          currentIndex: currentTabIndex,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.menu), label: ""),
             BottomNavigationBarItem(icon: Icon(Icons.settings), label: ""),
