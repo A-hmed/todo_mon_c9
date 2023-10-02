@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_mon_c9/model/app_user.dart';
 import 'package:todo_mon_c9/model/todo_dm.dart';
 
 class ListProvider extends ChangeNotifier{
@@ -8,8 +9,7 @@ class ListProvider extends ChangeNotifier{
 
   getTodosFromFirestore() async {
     todos.clear();
-    CollectionReference todosCollection =
-    FirebaseFirestore.instance.collection(TodoDM.collectionName);
+    CollectionReference todosCollection = AppUser.getCurrentUserTodosCollection();
     QuerySnapshot querySnapshot = await todosCollection.
         orderBy("date", descending: true).get();
     List<QueryDocumentSnapshot> docs = querySnapshot.docs;

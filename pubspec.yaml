@@ -19,6 +19,7 @@ dependencies:
   flutter_slidable: ^3.0.0
   firebase_core: ^2.16.0
   cloud_firestore: ^4.9.2
+  firebase_auth: ^4.10.0
 
 
 dev_dependencies:

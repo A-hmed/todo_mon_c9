@@ -3,15 +3,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_mon_c9/providers/list_provider.dart';
+import 'package:todo_mon_c9/ui/screens/auth/login/login_screen.dart';
+import 'package:todo_mon_c9/ui/screens/auth/register/register_screen.dart';
 import 'package:todo_mon_c9/ui/screens/splash/splash_screen.dart';
 import 'package:todo_mon_c9/ui/utils/app_theme.dart';
-
 import 'ui/screens/home/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await FirebaseFirestore.instance.disableNetwork();
   runApp(ChangeNotifierProvider(
     create: (_) => ListProvider(),
       child: const MyApp()
@@ -26,12 +26,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
+      darkTheme: AppTheme.lightTheme,
       routes: {
         SplashScreen.routeName: (_) => SplashScreen(),
-        HomeScreen.routeName: (_) => HomeScreen()
+        HomeScreen.routeName: (_) => HomeScreen(),
+        LoginScreen.routeName: (_) => LoginScreen(),
+        RegisterScreen.routeName: (_) => RegisterScreen()
       },
-      initialRoute: SplashScreen.routeName,
+      initialRoute: LoginScreen.routeName,
     );
   }
 }

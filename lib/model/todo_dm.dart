@@ -11,7 +11,8 @@ class TodoDM {
   required this.date,required this.isDone});
 
   TodoDM.fromJson(Map json){
-    id = json["id"];
+    print("Json: $json");
+    id = json["id"]??"12345";
     title = json["title"];
     description = json["description"];
     date = DateTime.fromMillisecondsSinceEpoch(json["date"]);

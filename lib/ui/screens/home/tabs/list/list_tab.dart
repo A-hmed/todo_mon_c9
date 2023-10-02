@@ -27,7 +27,7 @@ class _ListTabState extends State<ListTab> {
     provider = Provider.of(context);
     return Column(children: [
       SizedBox(
-        height: MediaQuery.of(context).size.height * .12,
+        height: MediaQuery.of(context).size.height * .14,
         child: Stack(
           children: [
             Column(

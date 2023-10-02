@@ -1,6 +1,10 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_mon_c9/model/app_user.dart';
+import 'package:todo_mon_c9/providers/list_provider.dart';
 import 'package:todo_mon_c9/ui/bottom_sheets/add_bottom_sheet.dart';
+import 'package:todo_mon_c9/ui/screens/auth/login/login_screen.dart';
 import 'package:todo_mon_c9/ui/screens/home/tabs/list/list_tab.dart';
 import 'package:todo_mon_c9/ui/screens/home/tabs/settings/settings_tab.dart';
 import 'package:todo_mon_c9/ui/screens/home/todo_widget.dart';
@@ -19,13 +23,24 @@ class _HomeScreenState extends State<HomeScreen> {
     ListTab(),
     SettingsTab()
   ];
+  late ListProvider provider;
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of(context);
     return Scaffold(
         appBar: AppBar(
-          title: const Text("To Do List"),
+          title: Text("${AppUser.currentUser!.username}"),
           toolbarHeight: MediaQuery.of(context).size.height * .08,
+          actions: [
+            InkWell(
+                onTap: (){
+                  provider.todos.clear();
+                  AppUser.currentUser = null;
+                  Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+                },
+                child: Icon(Icons.logout))
+          ],
         ),
         body: tabs[currentTabIndex],
         floatingActionButton: buildFab(context),
